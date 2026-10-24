@@ -5,7 +5,8 @@ from sklearn.metrics import mean_absolute_percentage_error
 
 from features import DATA, FEATURES, load, clean, add_features, remove_bad_prices
 
-PARAMS = dict(n_estimators=800, learning_rate=0.05, num_leaves=63, verbose=-1)
+# l1 = absolute error on price per mile, which matches the percentage-error metric
+PARAMS = dict(objective="l1", n_estimators=800, learning_rate=0.05, num_leaves=63, verbose=-1)
 
 
 def baseline_mape(train, test):

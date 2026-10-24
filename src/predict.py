@@ -20,7 +20,8 @@ def main():
     template.to_csv("validation_predictions.csv", index=False)
     print("saved validation_predictions.csv")
 
-    # 2. december chart: coords from train, quote_signal = daily mean from validation
+    # 2. december chart: coords from train, quote_signal = december median from validation
+    #    (december daily averages only vary as much as sampling noise, so one value for the month)
     dec = load(f"{DATA}/december-chart-inputs.csv")
     cols = list(dec.columns)
     coords = pd.concat([
@@ -31,7 +32,7 @@ def main():
     for side in ["pickup", "delivery"]:
         decf[f"{side}_lat"] = decf[side].map(coords["lat"])
         decf[f"{side}_lon"] = decf[side].map(coords["lon"])
-    decf["quote_signal"] = decf["date"].map(val.groupby("date")["quote_signal"].mean())
+    decf["quote_signal"] = val.loc[val["date"] >= "2025-12-01", "quote_signal"].median()
     decf = add_features(decf)
 
     dec["predicted_rate"] = predict(model, decf)
