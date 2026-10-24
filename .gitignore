@@ -1,0 +1,9 @@
+# Spotter's assessment files (not mine to publish)
+data/*.csv
+!data/december-chart-inputs-filled.csv
+score.py
+*.pdf
+
+# python / jupyter
+__pycache__/
+.ipynb_checkpoints/
